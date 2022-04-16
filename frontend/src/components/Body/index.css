@@ -1,0 +1,12 @@
+.body__index {
+    min-width: fit-content;
+    display: flex;
+    min-height: 85vh;
+  }
+  
+  .body__indexContent {
+    display: flex;
+    width: 100%;
+    /* Change */
+    /* justify-content: center; */
+  }
