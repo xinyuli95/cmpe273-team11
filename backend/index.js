@@ -45,6 +45,12 @@ mongoose.connect(mongoDB ,(err, res) => { //mongoose.connect(process.env.MONGO_U
 });
 
 
+const {sqlDB} = require('./Utils/config');
+
+sqlDB.connect(sqlDB,(err, res) => {
+    if (err) throw err;
+    console.log("Connected");
+});
 
 //user route
 const userRoute = require("./routes/user");
@@ -60,46 +66,6 @@ app.use("/user", userRoute);
 // app.use("/tags", tagRoute);
 
 
-
-
-
-
-// app.post('/login', async (req, res) => {
-//     const usernameValue = req.body.username;
-//     const passwordValue = req.body.password;
-//     console.log(usernameValue);
-//     console.log(passwordValue);
-//
-//     await db.query(
-//         "SELECT * FROM users WHERE username = ? AND password = ?", [usernameValue, passwordValue],
-//         function (err, result) {
-//             if (err) {
-//                 console.log(err);
-//                 console.log("LOGIN NOT WORKING")
-//             }
-//
-//             if (result.length > 0) {
-//                 res.cookie('cookie', "admin", {maxAge: 900000, httpOnly: false, path: '/'});
-//                 req.session.user = result;
-//                 req.session.username = req.body.username;
-//                 console.log(req.session.user);
-//
-//
-//                 res.send(result);
-//                 console.log("LOGIN WORKING")
-//                 req.session.username = req.body.username;
-//                 console.log(req.session.username)
-//             } else { //no username or password found
-//                 res.writeHead(400, {
-//                     'Content-Type': 'text/plain'
-//                 })
-//                 res.end("Invalid credentials");
-//                 console.log("login failed")
-//             }
-//         });
-//
-//
-// });
 
 
 app.listen(3001);
