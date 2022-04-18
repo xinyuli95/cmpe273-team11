@@ -4,6 +4,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {secret} = require('../Utils/config');
 // const User = require('../Models/UserModel');
+const {db} = require('../Utils/mysqlConfig');
 const {auth} = require("../utils/passport");
 auth();
 
@@ -58,7 +59,7 @@ router.post('/signup', async (req, res) => {
     // console.log(Users);
     // console.log(Users.map(x => x.username));
     // console.log(req.body.password);
-    const name = req.body.name;
+    // const name = req.body.name;
     const username = req.body.username
     const password = req.body.password;
     console.log(req.body.name);
@@ -66,7 +67,7 @@ router.post('/signup', async (req, res) => {
     console.log(req.body.password);
 
 
-    await db.query("INSERT INTO users (name, username, password) VALUES (?,?, ?)", [name, username, password], function (err, result) {
+    await db.query("INSERT INTO users (username, password) VALUES (?, ?)", [name, username, password], function (err, result) {
         if (err) {
             console.log(err);
             console.log("ERROR SIGNING UP");
