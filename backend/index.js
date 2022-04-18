@@ -49,7 +49,7 @@ mongoose.connect(mongoDB ,(err, res) => { //mongoose.connect(process.env.MONGO_U
 const {sqlDB} = require('./Utils/config');
 sqlDB.connect((err, res) => {
     if (err) throw err;
-    console.log("Connected");
+    console.log("MYSQL Connected");
 });
 
 //user route
