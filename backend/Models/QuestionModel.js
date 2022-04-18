@@ -7,6 +7,7 @@ const questionSchema = new Schema({
         title: {type: String, required: true},
         body: {type: String, required: true},
         tags: {type: Array},
+    // img: {type: Boolean},
         status: {type: String, default: "unanswered"},
     },
 
