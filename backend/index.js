@@ -45,9 +45,9 @@ mongoose.connect(mongoDB ,(err, res) => { //mongoose.connect(process.env.MONGO_U
 });
 
 
+//connect to mysql
 const {sqlDB} = require('./Utils/config');
-
-sqlDB.connect(sqlDB,(err, res) => {
+sqlDB.connect((err, res) => {
     if (err) throw err;
     console.log("Connected");
 });
