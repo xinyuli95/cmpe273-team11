@@ -1,59 +1,88 @@
 import React from "react";
+// import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-// import  {TagsInput} from 'react-tag-input-component';
-import { WithContext as ReactTags } from 'react-tag-input';
-import './Question.css'
+import "react-quill/dist/quill.snow.css"; // ES6
+import "./Question.css";
+// import Editor from "react-quill/lib/toolbar";
+// import axios from "axios";
+import { TagsInput } from "react-tag-input-component";
+// import { selectUser } from "../../feature/userSlice";
+// import { useHistory } from "react-router-dom";
+// import ChipsArray from "./TagsInput";
 
 function Question() {
+
   return (
-    <div className="question">
-      <div className="question__containter">
-        <div className="question__containterTitle">
-          <h1>Ask a Public Question</h1>
+    <div className="add_question">
+      <div className="add_question_container">
+        <div className="head_title">
+          <h1>Ask a public question</h1>
         </div>
-        <div className="question__containterQuestion">
-          <div className="question__containterQuestionOptions">
-            <div className="question__containterQuestionOptionsOption">
-              <div className="question__containterQuestionOptionsOptionTitle">
+        <div className="question_container">
+          <div className="question_options">
+            <div className="question_option">
+              <div className="title">
                 <h3>Title</h3>
-                <small className="">
+                <small>
                   Be specific and imagine you’re asking a question to another
                   person
                 </small>
                 <input
+                  // value={title}
+                  // onChange={(e) => setTitle(e.target.value)}
                   type="text"
-                  className=""
-                  placeholder="e.g. Is there an R function for finding the index of an element in a vector?"
+                  placeholder="e.g Is there an R function for finding teh index of an element in a vector?"
                 />
               </div>
             </div>
-            <div className="question__containterQuestionOptionsOption">
-              <div className="question__containterQuestionOptionsOptionTitle">
+            <div className="question_option">
+              <div className="title">
                 <h3>Body</h3>
-                <small className="">
+                <small>
                   Include all the information someone would need to answer your
-                  question.
+                  question
                 </small>
-                <ReactQuill className="question__reactQuill" theme="snow" />
+                <ReactQuill
+                  // value={body}
+                  // onChange={handleQuill}
+                  // modules={Editor.modules}
+                  className="react_quill"
+                  theme="snow"
+                />
               </div>
             </div>
-            <div className="question__containterQuestionOptionsOption">
-              <div className="question__containterQuestionOptionsOptionTitle">
+            <div className="question_option">
+              <div className="title">
                 <h3>Tags</h3>
-                <small className="">
+                <small>
                   Add up to 5 tags to describe what your question is about
                 </small>
-                <ReactTags
-                  name="fruits"
-                  className="question__ReactTags"
+                {/* <input
+                  value={tag}
+                  onChange={(e) => setTag(e.target.value)}
+                  data-role="tagsinput"
+                  data-tag-trigger="Space"
+                  type="text"
+                  placeholder="e.g. (asp.net-mvc php react json)"
+                /> */}
+
+                <TagsInput
+                  // value={tag}
+                  // onChange={setTag}
+                  className="tagsInput"
+                  name="tags"
                   placeHolder="press enter to add new tag"
                 />
+
+                {/* <ChipsArray /> */}
               </div>
             </div>
           </div>
         </div>
-        <button className="question__containterButton">Add your question</button>
+
+        <button className="button">
+          Add your question
+        </button>
       </div>
     </div>
   );

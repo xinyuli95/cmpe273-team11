@@ -1,28 +1,31 @@
 import React from 'react';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import "./App.css";
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from "react-router-dom";
 import './App.css';
 import Header from './components/Header/Header';
-import Body from './components/Body';
-import Question from './components/AddQuestion/Question';
+import StackoverflowBody from './components/StackOverflowBody';
+import AskQuestion from './components/AddQuestion/Question';
+import ViewQuestion from './components/ViewQuestion';
+import Auth from './components/Auth';
 
 function App() {
   return (
-    <div className="app">
+   
+    <div className="App">
       <Router>
-      <Header/>
-        <Switch> 
-          <Route exact path="/addquestion" component={Question} />
-          <Route exact path="/" component={Body} />
-          {/* <Route exact path="/addquestion" component={Body} />    */}
-          
-          <Route path="/">
-            
-          </Route>
-
+        <Header/>
+        <Switch>
+        <Route exact path="/" component={StackoverflowBody} />
+        <Route exact path="/viewquestion" component={ViewQuestion} />
+        <Route path="/addquestion" >
+          <AskQuestion/>
+        </Route>
+        <Route exact path="/auth" component={Auth} />
         </Switch>
       </Router>
-      
-      
     </div>
   );
 }
