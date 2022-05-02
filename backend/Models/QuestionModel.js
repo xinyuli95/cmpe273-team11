@@ -7,16 +7,17 @@ const questionSchema = new Schema({
         title: {type: String, required: true},
         body: {type: String, required: true},
         tags: {type: Array},
-    // img: {type: Boolean},
+        // img: {type: Boolean},
         status: {type: String, default: "unanswered"},
         votes: {type: Number, default: 0},
         answers: {type: Number, default: 0},
         views: {type: Number, default: 0},
     },
-    {timestamps: true},
-    
+
+
     {
-        versionKey: false
+        versionKey: false,
+        timestamps: true
     });
 
 

@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const Tags = require("../Models/TagsModel");
+const Tags = require("../Models/TagModel");
 
 
 //create tags
