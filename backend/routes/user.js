@@ -88,4 +88,36 @@ router.post('/signup', async (req, res) => {
 });
 
 
+
+//get users
+router.get('/userList/:id', async (req, res) => {
+    console.log("Inside GET USER request");
+
+
+    await db.query(
+        "SELECT * FROM users",
+        function (err, result) {
+            if (err) {
+                console.log(err);
+                console.log("GET user NOT WORKING")
+            }
+
+            if (result.length > 0) {
+                res.send(result);
+                console.log("GET users WORKING")
+
+            } else { //no username or password found
+                res.writeHead(400, {
+                    'Content-Type': 'text/plain'
+                })
+                console.log("GET req not working");
+            }
+        });
+
+
+
+});
+
+
+
 module.exports = router;
