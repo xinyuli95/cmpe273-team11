@@ -11,7 +11,7 @@ router.post("/create", async (req, res) => {
 
     try {
         console.log("SUCCESS CREATING QUESTION");
-        const savedQuestion= await newQuestion.save();
+        const savedQuestion = await newQuestion.save();
         res.status(200).json(savedQuestion);
     } catch (err) {
         console.log("ERROR CREATING QUESTION");
@@ -69,6 +69,43 @@ router.get("/find/:id", async (req, res) => {
     }
 });
 
+
+//for navbar or dashboard
+//GET all question
+router.get("/questionList", async (req, res) => {
+    console.log("INSIDE QUESTION GET AlL");
+
+    const query = req.query.new;
+    const tags = req.query.tags;
+    const title = req.query.title;
+    try {
+        let questions;
+
+        if (query) {
+            questions = await Question.find().sort({createdAt: -1}).limit(10);
+        } else if (tags) {
+            questions = await Question.find({
+                categories: {
+                    $in: [tags], //find the question with tags
+                },
+            });
+        } else if (title) {
+            questions = await Question.find({
+                title: {
+                    $in: [title],
+                },
+            });
+        } else {
+            questions = await Question.find();
+        }
+
+        console.log("SUCCESS QUESTION GET ALL");
+        res.status(200).json(questions);
+    } catch (err) {
+        console.log("ERROR QUESTION GET ALL");
+        res.status(500).json(err);
+    }
+});
 
 
 module.exports = router;
