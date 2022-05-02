@@ -49,16 +49,15 @@ app.use(function (req, res, next) {
 const userRoute = require("./routes/user");
 const questionRoute  = require("./routes/question");
 const tagRoute  = require("./routes/tags");
-
 // const adminRoute = require("./routes/admin");
-// const messageRoute = require("./routes/message");
+const messageRoute = require("./routes/message");
 
 
 app.use("/user", userRoute);
 app.use("/question", questionRoute);
 app.use("/tags", tagRoute);
 // app.use("/admin", adminRoute);
-// app.use("/message", messageRoute);
+app.use("/message", messageRoute);
 
 
 
