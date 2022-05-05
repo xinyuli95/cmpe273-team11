@@ -48,13 +48,19 @@ mongoose.connect(mongoDB ,(err, res) => { //mongoose.connect(process.env.MONGO_U
 //user route
 const userRoute = require("./routes/user");
 const questionRoute  = require("./routes/question");
+const answerRoute  = require("./routes/answer");
+
+
 const tagRoute  = require("./routes/tags");
 // const adminRoute = require("./routes/admin");
 const messageRoute = require("./routes/message");
 
 
+
 app.use("/user", userRoute);
 app.use("/question", questionRoute);
+app.use("/answer", answerRoute);
+
 app.use("/tags", tagRoute);
 // app.use("/admin", adminRoute);
 app.use("/message", messageRoute);

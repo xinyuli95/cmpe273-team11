@@ -14,5 +14,5 @@ const answerSchema = new Schema({
 );
 
 //model based on schema
-const AnswerModel = mongoose.model('question', answerSchema);
+const AnswerModel = mongoose.model('answer', answerSchema);
 module.exports = AnswerModel;
