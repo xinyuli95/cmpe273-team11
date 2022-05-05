@@ -85,7 +85,7 @@ router.get("/questionList", async (req, res) => {
             questions = await Question.find().sort({createdAt: -1}).limit(10);
         } else if (tags) {
             questions = await Question.find({
-                categories: {
+                tags: {
                     $in: [tags], //find the question with tags
                 },
             });
