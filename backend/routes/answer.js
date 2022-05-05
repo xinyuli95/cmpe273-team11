@@ -2,7 +2,6 @@
 const express = require("express");
 const router = express.Router();
 const Answer = require("../Models/AnswerModel");
-const Question = require("../Models/QuestionModel");
 
 
 //answer question
@@ -25,7 +24,7 @@ router.put("/update/:id", async (req, res) => {
     console.log("INSIDE answer UPDATE");
 
     try {
-        const updatedAnswer = await Question.findByIdAndUpdate(
+        const updatedAnswer = await Answer.findByIdAndUpdate(
             req.params.id,
             {
                 $set: req.body,
