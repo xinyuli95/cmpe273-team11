@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const answerSchema = new Schema({
 
         questionId: {type: String, required: true},
+        userid: {type: String, required: true},
         answer: {type: String, required: true},
         status: {type: String, default: "pending"}
     },
