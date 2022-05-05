@@ -1,17 +1,49 @@
-import React from "react";
+import React, {useState} from "react";
 // import { useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // ES6
 import "./Question.css";
-// import Editor from "react-quill/lib/toolbar";
-// import axios from "axios";
+import Editor from "react-quill/lib/toolbar";
+import axios from "axios";
 import { TagsInput } from "react-tag-input-component";
+import {useHistory} from "react-router-dom";
+// import Editor from "react-html-parser/demo/src/js/components/Editor";
 // import { selectUser } from "../../feature/userSlice";
 // import { useHistory } from "react-router-dom";
 // import ChipsArray from "./TagsInput";
 
 function Question() {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [tag, setTag] = useState([]);
+  const history = useHistory();
+  const handleQuill = (value) => {
+    setBody(value);
+  };
 
+  // const [question, setQuestion] = useState();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (title !== "" && body !== "") {
+      const bodyJSON = {
+        title: title,
+        body: body,
+        tag: JSON.stringify(tag),
+        // user: user,
+      };
+      await axios
+          .post("http://localhost:3001/question/create", bodyJSON)
+          .then((res) => {
+            // console.log(res.data);
+            alert("Question added successfully");
+            history.push("/");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    }
+  };
   return (
     <div className="add_question">
       <div className="add_question_container">
@@ -28,8 +60,8 @@ function Question() {
                   person
                 </small>
                 <input
-                  // value={title}
-                  // onChange={(e) => setTitle(e.target.value)}
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                   type="text"
                   placeholder="e.g Is there an R function for finding teh index of an element in a vector?"
                 />
@@ -43,9 +75,9 @@ function Question() {
                   question
                 </small>
                 <ReactQuill
-                  // value={body}
-                  // onChange={handleQuill}
-                  // modules={Editor.modules}
+                  value={body}
+                  onChange={handleQuill}
+                  modules={Editor.modules}
                   className="react_quill"
                   theme="snow"
                 />
@@ -67,8 +99,8 @@ function Question() {
                 /> */}
 
                 <TagsInput
-                  // value={tag}
-                  // onChange={setTag}
+                  value={tag}
+                  onChange={setTag}
                   className="tagsInput"
                   name="tags"
                   placeHolder="press enter to add new tag"
@@ -80,7 +112,7 @@ function Question() {
           </div>
         </div>
 
-        <button className="button">
+        <button onClick={handleSubmit}className="button">
           Add your question
         </button>
       </div>
