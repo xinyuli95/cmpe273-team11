@@ -13,7 +13,7 @@ const usersSchema = new Schema({
         badges: {type: Array},
         tags: {type: Array},
         bookmarks: {type: Array},
-
+        reputation: {type: Number, default: 0}
     },
     {
         timestamps: true
