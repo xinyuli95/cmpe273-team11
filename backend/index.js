@@ -52,7 +52,7 @@ const answerRoute  = require("./routes/answer");
 
 
 const tagRoute  = require("./routes/tags");
-// const adminRoute = require("./routes/admin");
+const adminRoute = require("./routes/admin");
 const messageRoute = require("./routes/message");
 
 
@@ -62,7 +62,7 @@ app.use("/question", questionRoute);
 app.use("/answer", answerRoute);
 
 app.use("/tags", tagRoute);
-// app.use("/admin", adminRoute);
+app.use("/admin", adminRoute);
 app.use("/message", messageRoute);
 
 
