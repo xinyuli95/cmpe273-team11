@@ -1,5 +1,11 @@
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
+import { auth, provider } from "../../firebase";
 import "./index.css";
 
 function Index() {
@@ -11,29 +17,114 @@ function Index() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // function validateEmail(email) {
-  //   const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-  //   if (reg.test(email) === false) {
-  //     return false;
-  //   } else return true;
-  // }
+  function validateEmail(email) {
+    const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+    if (reg.test(email) === false) {
+      return false;
+    } else return true;
+  }
 
-  // const handleSignIn = () => {
+  const handleGoogleSignIN = () => {
+    setLoading(true);
+    signInWithPopup(auth, provider)
+      .then((res) => {
+        setLoading(false);
+        // console.log(res);
+        history.push("/");
+        // return (
+        //   <>
 
-  // };
+        //   </>
+        // );
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      });
+  };
 
-  // const handleRegister = () => {
-  
-  // };
+  const handleSignIn = () => {
+    setError();
+    setLoading(true);
+    if (email === "" || password === "") {
+      setError("Required field is missing");
+      setLoading(false);
+    } else if (!validateEmail(email)) {
+      setError("Email is malformed");
+      setLoading(false);
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((res) => {
+          // console.log(res);
+          history.push("/");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error.code);
+          setError(error.message);
+          setLoading(false);
+        });
+    }
+  };
+
+  const handleRegister = () => {
+    setError("");
+    setLoading(false);
+    if (email === "" || password === "" || username === "") {
+      setError("Required field is missing.");
+      setLoading(false);
+    } else if (!validateEmail(email)) {
+      setError("Email is malformed");
+      setLoading(false);
+    } else {
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((res) => {
+          // console.log(res);
+          history.push("/");
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          setError(error.message);
+          setLoading(false);
+        });
+    }
+  };
   return (
     <div className="auth">
-      <div className="auth_container">
-        <div className="auth_login">
-          <div className="auth_login_container">
+      <div className="auth-container">
+
+        {/* <div className="sign-options">
+          <div onClick={handleGoogleSignIN} className="single-option">
+            <img
+              alt="google"
+              src="https://image.flaticon.com/icons/png/512/281/281764.png"
+            />
+            <p>{loading ? "Signing in..." : "Login with Google"}</p>
+          </div>
+          <div className="single-option">
+            <img
+              alt="github"
+              src="https://image.flaticon.com/icons/png/512/270/270798.png"
+            />
+            <p>Login with Github</p>
+          </div>
+          <div className="single-option">
+            <img
+              alt="facebook"
+              src="https://image.flaticon.com/icons/png/512/733/733547.png"
+            />
+            <p>Login with Facebook</p>
+          </div>
+        </div> */}
+
+
+        <div className="auth-login">
+          <div className="auth-login-container">
             {register ? (
               <>
                 {" "}
-                <div className="input_field">
+                <div className="input-field">
                   <p>Username</p>
                   <input
                     value={username}
@@ -41,7 +132,7 @@ function Index() {
                     type="text"
                   />
                 </div>
-                <div className="input_field">
+                <div className="input-field">
                   <p>Email</p>
                   <input
                     value={email}
@@ -49,7 +140,7 @@ function Index() {
                     type="text"
                   />
                 </div>
-                <div className="input_field">
+                <div className="input-field">
                   <p>Password</p>
                   <input
                     value={password}
@@ -58,7 +149,7 @@ function Index() {
                   />
                 </div>
                 <button
-                  // onClick={handleRegister}
+                  onClick={handleRegister}
                   disabled={loading}
                   style={{
                     marginTop: "10px",
@@ -69,16 +160,16 @@ function Index() {
               </>
             ) : (
               <>
-                <div className="input_field">
+                <div className="input-field">
                   <p>Email</p>
                   <input type="text" />
                 </div>
-                <div className="input_field">
+                <div className="input-field">
                   <p>Password</p>
                   <input type="password" />
                 </div>
                 <button
-                  // onClick={handleSignIn}
+                  onClick={handleSignIn}
                   disabled={loading}
                   style={{
                     marginTop: "10px",
@@ -99,10 +190,11 @@ function Index() {
                 cursor: "pointer",
               }}
             >
-              {register ? "Login" : "Register"}
+              {register ? "Login" : "Register"} ?
             </p>
           </div>
         </div>
+        
         {error !== "" && (
           <p
             style={{

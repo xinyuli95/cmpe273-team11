@@ -1,12 +1,12 @@
 import React from "react";
-import Sidebar from "../StackOverflowBody/Sidebar";
+import Sidebar from "../StackOverflow/Sidebar";
 import "./index.css";
 import MainQuestion from "./MainQuestion";
 
 function Index() {
   return (
-    <div className="stack_index">
-      <div className="stack_index_content">
+    <div className="stack-index">
+      <div className="stack-index-content">
         <Sidebar />
         <MainQuestion />
       </div>

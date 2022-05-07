@@ -1,7 +1,7 @@
 import React from "react";
 import "./Questionstab.css";
 import UserDetails from "../../UserDetails/UserDetails";
-import Sidebar from "../../../StackOverflowBody/Sidebar";
+import Sidebar from "../../../StackOverflow/Sidebar";
 
 function Questionstab() {
   return (
