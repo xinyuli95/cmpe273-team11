@@ -1,7 +1,7 @@
 import React from "react";
 import "./ActivityBadges.css";
 import UserDetails from "../../UserDetails/UserDetails";
-import Sidebar from "../../../StackOverflowBody/Sidebar";
+import Sidebar from "../../../StackOverflow/Sidebar";
 function ActivityBadges() {
   return (
     <div className="stack_index">

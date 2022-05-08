@@ -1,11 +1,11 @@
 import React from "react";
 import UserDetails from "../../UserDetails/UserDetails";
-import Sidebar from "../../../StackOverflowBody/Sidebar";
+import Sidebar from "../../../StackOverflow/Sidebar";
 function Reputation() {
   return (
     <div className="stack_index">
       <div className="stack_index_content">
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div>
           <UserDetails />
           <div class="d-flex mb48">
