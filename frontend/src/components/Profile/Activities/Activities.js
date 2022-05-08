@@ -1,3 +1,4 @@
+
 import React from "react";
 import UserDetails from "../UserDetails/UserDetails";
 import "./Activities.css";

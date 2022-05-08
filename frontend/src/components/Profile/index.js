@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "../StackOverflow/Sidebar";
+import Sidebar from "../StackOverflowBody/Sidebar";
 import "./index.css";
 import Profile from "./Profile";
 

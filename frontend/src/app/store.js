@@ -1,10 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../feature/userSlice";
-// import threadReducer from "../features/counter/threadSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    user: userReducer,
-    // thread: threadReducer,
+    counter: counterReducer,
   },
 });
