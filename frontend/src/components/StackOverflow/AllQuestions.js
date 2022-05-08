@@ -9,9 +9,9 @@ function AllQuestions({ data }) {
   function truncate(str, n) {
     return str?.length > n ? str.substr(0, n - 1) + "..." : str;
   }
+  console.log(FormData)
+  let tags = data?.tags;
 
-  let tags = JSON.parse(data?.tags[0]);
-  // console.log();
   return (
     <div className="all-questions">
       <div className="all-questions-container">
