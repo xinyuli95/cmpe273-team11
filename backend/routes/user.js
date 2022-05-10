@@ -26,20 +26,17 @@ router.post('/login', async (req, res) => {
 
             if (result.length > 0) {
                 //jwt
-                const payload = {_id: users._id, username: users.username};
+                const payload = {id: result[0].id, username: usernameValue};
                 const token = jwt.sign(payload, secret, {
                     expiresIn: 1008000
                 });
-                // res.cookie('cookie', "admin", {maxAge: 900000, httpOnly: false, path: '/'});
-                // req.session.user = result;
-                // req.session.username = req.body.username;
-                // console.log(req.session.user);
 
 
-                res.status(200).end("JWT " + token);
+                console.log(result);
+                console.log(result[0].id);
+                res.status(200).end("Successful login \nJWT = " + token);
                 console.log("LOGIN WORKING")
-                req.session.username = req.body.username;
-                console.log(req.session.username)
+
             } else { //no username or password found
                 res.writeHead(400, {
                     'Content-Type': 'text/plain'
@@ -60,6 +57,7 @@ router.post('/signup', async (req, res) => {
     // console.log(Users.map(x => x.username));
     // console.log(req.body.password);
     // const name = req.body.name;
+    const email = req.body.email
     const username = req.body.username
     const password = req.body.password;
     // console.log(req.body.name);
@@ -67,7 +65,7 @@ router.post('/signup', async (req, res) => {
     console.log(req.body.password);
 
 
-    await db.query("INSERT INTO users (username, password) VALUES (?, ?)", [username, password], function (err, result) {
+    await db.query("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [username,email, password], function (err, result) {
         if (err) {
             console.log(err);
             console.log("ERROR SIGNING UP");
