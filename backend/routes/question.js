@@ -2,10 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const Question = require("../Models/QuestionModel");
-
+const { checkAuth } = require("../utils/passport");
 
 //create question
-router.post("/create", async (req, res) => {
+router.post("/create", checkAuth, async (req, res) => {
     console.log("INSIDE CREATE QUESTION POST");
     const newQuestion = new Question(req.body); //create new object
 
@@ -18,7 +18,6 @@ router.post("/create", async (req, res) => {
         res.status(500).json(err);
     }
 });
-
 
 //update question
 router.put("/update/:id", async (req, res) => {
