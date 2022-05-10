@@ -2,7 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const Question = require("../Models/QuestionModel");
-const { checkAuth } = require("../utils/passport");
+const {checkAuth} = require("../utils/passport");
 
 //create question
 router.post("/create", checkAuth, async (req, res) => {
@@ -90,9 +90,9 @@ router.get("/questionList", async (req, res) => {
             });
         } else if (title) {
             questions = await Question.find({
-                title: {
-                    $in: [title],
-                },
+                "title": {
+                    $regex: title
+                }
             });
         } else {
             questions = await Question.find();
