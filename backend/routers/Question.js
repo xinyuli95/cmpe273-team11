@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const router = express.Router();
 // const mongoose = require('mongoose')
 const QuestionDB = require("../models/Question");
+const { checkAuth } = require("../utils/passport");
 
-router.post("/", async (req, res) => {
+router.post("/", checkAuth,async (req, res) => {
   const questionData = new QuestionDB({
     title: req.body.title,
     body: req.body.body,

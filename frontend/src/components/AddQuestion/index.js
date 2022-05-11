@@ -83,6 +83,8 @@ function Index() {
         tag: JSON.stringify(tag),
         user: user,
       };
+      //check auth
+      axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
       await axios
         .post("/api/question", bodyJSON)
         .then((res) => {
