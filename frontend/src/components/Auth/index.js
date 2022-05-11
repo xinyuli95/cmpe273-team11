@@ -24,7 +24,7 @@ function Index() {
     setError();
     setLoading(true);
 
-    if (email === "" || password === "") {
+    if (username === "" || password === "") {
       setError("Required field is missing");
       setLoading(false);
 
