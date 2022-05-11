@@ -36,8 +36,9 @@ router.post('/login', async (req, res) => {
 
                 console.log(result);
                 console.log(result[0].id);
-                res.status(200).end("Successful login \nJWT = " + token);
+                res.status(200).end("JWT " + token);
                 console.log("LOGIN WORKING")
+
 
             } else { //no username or password found
                 res.writeHead(400, {
