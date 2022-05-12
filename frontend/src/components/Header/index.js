@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/index.css";
+import {useHistory} from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import { Avatar } from "@material-ui/core";
@@ -15,29 +16,15 @@ import axios from "axios";
 
 
 function Header() {
+  const history = useHistory();
   const [search, setSearch] = useState("");
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    /*
+    
     if (search !== "") {
-      const bodyJSON = {
-        query: search,
-        tags: "",
-        title: ""
-        // user: user,
-      };
-      await axios
-          .get("/api/question/search", bodyJSON)
-          .then((res) => {
-            console.log(res.data);
-            //alert("Question added successfully");
-            //history.push("/");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-    */
+      history.push(`/results?s=${search}`);
+    };
   };
 
   const user = useSelector(selectUser);
@@ -89,9 +76,6 @@ function Header() {
         <div className="header-middle">
           <div className="header-search-container">
             <SearchIcon />
-
-           
-
             <input
               type="text" 
               placeholder="Search" 

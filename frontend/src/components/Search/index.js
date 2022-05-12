@@ -1,22 +1,33 @@
-/*
 import React, { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "../StackOverflow/Sidebar";
 import "./css/index.css";
-import Main from "./Main";
+import Main from "../StackOverflow/Main";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 function Index() {
   const [questions, setQuestions] = useState([]);
+  // const [query, setQuery] = useState("")
+  const query = new URLSearchParams(window.location.search).get('s');
+  console.log("query: ", query);
 
   useEffect(() => {
     async function getQuestion() {
-      await axios.get("/api/question").then((res) => {
-        setQuestions(res.data.reverse());
-        // console.log(res.data)
-      });
+      const bodyJSON = {
+        title: query
+      }
+      await axios
+          .post("/api/search",bodyJSON)
+          .then((res) => {
+            setQuestions(res.data.reverse());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
     }
     getQuestion();
-  }, []);
+  }, [query]);
+
   return (
     <div className="stack-index">
       <div className="stack-index-content">
@@ -28,4 +39,3 @@ function Index() {
 }
 
 export default Index;
-*/
