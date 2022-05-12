@@ -14,6 +14,7 @@ import Header from "./components/Header";
 import AddQuestion from "./components/AddQuestion";
 import ViewQuestion from "./components/ViewQuestion";
 import Auth from "./components/Auth";
+//import Search from "./components/Search";
 
 import ProfilePage from "./components/Profile";
 import Activities from "./components/Profile/Activities";
@@ -85,6 +86,7 @@ function App() {
           <Route exact path="/auth" component={Auth} />
           <Route exact path="/addquestion" component={AddQuestion} />
           <Route exact path="/question" component={ViewQuestion} />
+          {/*<Route exact path="/search" component={Search} />*/}
 
           <Route exact path="/userprofile" component={ProfilePage} />
           <Route exact path="/activities" component={Activities} />

@@ -15,7 +15,30 @@ import axios from "axios";
 
 
 function Header() {
- 
+  const [search, setSearch] = useState("");
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    /*
+    if (search !== "") {
+      const bodyJSON = {
+        query: search,
+        tags: "",
+        title: ""
+        // user: user,
+      };
+      await axios
+          .get("/api/question/search", bodyJSON)
+          .then((res) => {
+            console.log(res.data);
+            //alert("Question added successfully");
+            //history.push("/");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+    */
+  };
 
   const user = useSelector(selectUser);
   // console.log(user);
@@ -70,10 +93,20 @@ function Header() {
            
 
             <input
-              type="text"
-              placeholder="Search..."
- 
+              type="text" 
+              placeholder="Search" 
+              value = {search} 
+              onChange={(e) => setSearch(e.target.value)}
             />
+            <button
+              onClick={handleSearch}
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              Search
+            </button>
+
           </div>
         </div>
 
