@@ -71,6 +71,7 @@ function Profile() {
                     <div className="flex--item mr12">
                       <img
                         src={goldTag}
+                        alt=""
                         style={{ height: "48px", width: "48px" }}
                       ></img>
                     </div>
