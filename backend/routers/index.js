@@ -8,6 +8,7 @@ const answercommentRouter = require('./answercomments');
 const userRouter = require('./User');
 const voteRouter = require('./Votes');
 const UserdetailsRouter = require('./Userdetails');
+const searchRouter = require('./Search');
 
 router.get("/", (req, res) => {
   res.send("Welcome to stack overflow clone");
@@ -20,5 +21,6 @@ router.use('/answercomment', answercommentRouter);
 router.use('/user', userRouter);
 router.use('/vote', voteRouter);
 router.use('/userdetails', UserdetailsRouter);
+router.use('/search', searchRouter);
 
 module.exports = router;
