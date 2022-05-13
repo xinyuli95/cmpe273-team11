@@ -18,7 +18,7 @@ function AllQuestions({ data }) {
 
   //setVoteCount(res.data[0].votes[res.data[0].votes.length - 1].vote);
   // let tags = data?.tags;
-  let tags = JSON.parse(data?.tags[0]);
+  let tags = data?.tags;
 
   return (
     <div className="all-questions">
