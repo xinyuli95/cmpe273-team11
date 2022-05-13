@@ -71,7 +71,6 @@ function Index() {
     async function getQuestion() {
       const bodyJSON = parseQuery(query);
       console.log(bodyJSON);
-      /*
       await axios
           .post("/api/search",bodyJSON)
           .then((res) => {
@@ -80,7 +79,6 @@ function Index() {
           .catch((err) => {
             console.log(err);
           });
-      */
     }
     getQuestion();
   }, [query]);

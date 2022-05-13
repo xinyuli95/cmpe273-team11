@@ -9,24 +9,23 @@ const { checkAuth } = require("../utils/passport");
 router.post("/", async (req, res) => {
   console.log("INSIDE SEARCH");
   
-  const query = req.body.query;
+  const user = req.body.user;
   const tags = req.body.tags;
   const title = req.body.title;
+  const type = req.body.type;
+  const accepted = req.body.accepted;
 
   try {
       let questions;
-
-      if (query) {
-          console.log("find 10")
-          questions = await Question.find().sort({createdAt: -1}).limit(10);
-      } else if (tags) {
+      
+      if (tags.length !== 0) {
           console.log("find tag")
           questions = await Question.find({
               tags: {
                   $in: [tags], //find the question with tags
               },
           });
-      } else if (title) {
+      } else if (title !== "") {
           console.log("find title")
           questions = await Question.find({
               "title": {
@@ -34,7 +33,8 @@ router.post("/", async (req, res) => {
               }
           });
       } else {
-          questions = await Question.find();
+        console.log("find 10")
+        questions = await Question.find().sort({createdAt: -1}).limit(10);
       }
 
       console.log("SUCCESS SEARCH");
