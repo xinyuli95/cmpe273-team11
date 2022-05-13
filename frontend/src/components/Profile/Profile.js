@@ -27,7 +27,7 @@ function Profile() {
             <div className="d-flex flex__allitems6 gs16 fw-wrap md:jc-space-between">
               <div className="flex--item md:fl-auto">
                 <div className="fs-body3 fc-dark">222</div>
-                reputation
+                reputationsss
               </div>
               <div className="flex--item md:fl-auto">
                 <div className="fs-body3 fc-dark">123</div>
