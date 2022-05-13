@@ -50,12 +50,10 @@ const userRoute = require("./routes/user");
 const questionRoute  = require("./routes/question");
 const answerRoute  = require("./routes/answer");
 
-
 const tagRoute  = require("./routes/tags");
 const adminRoute = require("./routes/admin");
 const messageRoute = require("./routes/message");
-
-
+const uploadRoute = require("./routers/upload");
 
 app.use("/user", userRoute);
 app.use("/question", questionRoute);
@@ -64,10 +62,7 @@ app.use("/answer", answerRoute);
 app.use("/tags", tagRoute);
 app.use("/admin", adminRoute);
 app.use("/message", messageRoute);
-
-
-
-
+app.use("/upload", uploadRoute);
 
 app.listen(3001);
 console.log("Server Listening on port 3001");

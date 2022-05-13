@@ -87,24 +87,27 @@ router.post('/signup', async (req, res) => {
 router.put("/update/:id", async (req, res) => {
     console.log("INSIDE USER UPDATE");
 
-    try {
-        const updateUser = await User.findByIdAndUpdate(
-            req.params.id,
-            {
-                $set: req.body,
-            },
-            {new: true}
-        );
-        console.log("profile update works");
-        res.status(200).json(updateUser);
-        res.end("Successful PROFILE UPDATE");
-    } catch (err) {
-        console.log(err);
-        console.log("ERROR UPDATING PROFILE");
-        res.status(500).json(err);
+    const query_list = {
+        about: req.body.about,
+        img: req.body.img,
+        password: req.body.password,
+        username: req.body.username,
+        name:req.body.name,
+    };
 
-    }
+    const sql = `UPDATE users SET ? WHERE id = ?`
 
+    db.query(sql, [query_list, req.params.id], function (err, result) {
+        if (err) {
+            console.log(err);
+            console.log("LOGIN NOT WORKING")
+        }
+
+        res.status(200).json({
+            msg: 'ok',
+            code: 200
+        });
+    });
 
 });
 
