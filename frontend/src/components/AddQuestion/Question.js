@@ -42,7 +42,7 @@ function Question() {
 
       };
       await axios
-          // .post("http://localhost:3001/question/create", bodyJSON)
+          // .post("http://34.226.123.6:3001/question/create", bodyJSON)
           .post("/api/question", body)
           .then((res) => {
             // console.log(res.data);
