@@ -6,7 +6,7 @@ import { Avatar } from "@material-ui/core";
 // import Avatar from "@mui/material/Avatar";
 import InboxIcon from "@material-ui/icons/Inbox";
 import HelpIcon from "@material-ui/icons/Help";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../../feature/userSlice";
@@ -19,28 +19,29 @@ function Header() {
 
   const [showProfileIcon, setShowProfileIcon] = useState(false);
 
+  const history = useHistory();
+  const [search, setSearch] = useState("");
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (search !== "") {
+      history.push(`/results?s=${search}`);
+    };
+  };
+
 
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("username");
     console.log(loggedInUser);
     if (loggedInUser) {
-      // const foundUser = JSON.parse(loggedInUser);
       setShowProfileIcon(true);
     }
   }, [showProfileIcon]);
 
-  // useEffect(() => {
-  //   // Update the document title using the browser API
-  //   if(localStorage.getItem("username") === null || localStorage.getItem("username") ===""  || localStorage.getItem("password") === undefined){
-  //     setShowProfileIcon(false);
-  //   }
-  //   else{
-  //     setShowProfileIcon(true);
-  //   }
-  // });
  
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   // console.log(user);
   function stringToColor(string) {
     let hash = 0;
@@ -103,10 +104,20 @@ function Header() {
            
 
             <input
-              type="text"
-              placeholder="Search..."
- 
+              type="text" 
+              placeholder="Search.." 
+              value = {search} 
+              onChange={(e) => setSearch(e.target.value)}
+
             />
+            <button
+              onClick={handleSearch}
+              style={{
+                marginTop: "10px",
+              }}
+            >
+              Search
+            </button>
           </div>
         </div>
 

@@ -24,6 +24,8 @@ import Bookmarkstab from "./components/Profile/Activities/Bookmarkstab/Bookmarks
 import Reputation from "./components/Profile/Activities/Reputation/Reputation";
 import UserDetails from "./components/Profile/UserDetails/UserDetails";
 
+import Search from "./components/Search";
+
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./feature/userSlice";
 import { useEffect } from "react";
@@ -44,6 +46,7 @@ function App() {
 
           <Route exact path="/tags" component={Tags} />
           <Route exact path="/users" component={Users} />
+          <Route exact path="/results" component={Search} />
 
           <Route exact path="/auth" component={Auth} />
           <Route exact path="/addquestion" component={AddQuestion} />
@@ -71,9 +74,12 @@ function App() {
             <Reputation />
           </Route>
 
-          {/* <PrivateRoute exact path="/" component={StackOverflow} />
+          {
+          /* <PrivateRoute exact path="/" component={StackOverflow} />
           <PrivateRoute exact path="/addquestion" component={AddQuestion} />
-          <PrivateRoute exact path="/question" component={ViewQuestion} /> */}
+          <PrivateRoute exact path="/question" component={ViewQuestion} /> */
+          }
+
         </Switch>
       </Router>
     </div>
