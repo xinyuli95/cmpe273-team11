@@ -174,6 +174,10 @@ function Header() {
             <Link to="/auth">
               <button>Login</button>
             </Link>
+
+            <Link to="/signup">
+              <button style = {{marginLeft: "10px" }}>Signup</button>
+            </Link>
           </div>
         </div>
          }

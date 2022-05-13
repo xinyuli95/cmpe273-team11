@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode';
 
 function Index() {
     // const history = useHistory();
-    const [register, setRegister] = useState(false);
+    const [register, setRegister] = useState(true);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
@@ -16,12 +16,6 @@ function Index() {
     // const [redirectVar, setRedirectVar] = useState(false);
 
 
-    function validateEmail(email) {
-        const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-        if (reg.test(email) === false) {
-            return false;
-        } else return true;
-    }
 
     const handleSignIn = async (e) => {
         e.preventDefault();
@@ -97,20 +91,20 @@ function Index() {
             password: password,
         };
         axios
-        .post("/api/userdetails", body)
-        .then((res) => {
-            console.log(username);
-            console.log(res.data);
-             // console.log(res.data);
+            .post("/api/userdetails", body)
+            .then((res) => {
+                console.log(username);
+                console.log(res.data);
+                // console.log(res.data);
 
-        //   history.push("/");
+                //   history.push("/");
 
-        })
-        .catch((err) => {
-            console.log(err);
-            setError(error.message);
-            setLoading(false);
-        });
+            })
+            .catch((err) => {
+                console.log(err);
+                setError(error.message);
+                setLoading(false);
+            });
     }
 
     const handleRegister = async (e) => {

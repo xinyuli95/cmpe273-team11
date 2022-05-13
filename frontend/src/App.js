@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 
 import Tags from "./components/Tags";
@@ -14,6 +13,8 @@ import Header from "./components/Header";
 import AddQuestion from "./components/AddQuestion";
 import ViewQuestion from "./components/ViewQuestion";
 import Auth from "./components/Auth";
+import SignUp from "./components/Signup";
+
 
 import ProfilePage from "./components/Profile";
 import Activities from "./components/Profile/Activities";
@@ -49,6 +50,8 @@ function App() {
           <Route exact path="/results" component={Search} />
 
           <Route exact path="/auth" component={Auth} />
+          <Route exact path="/signup" component={SignUp} />
+
           <Route exact path="/addquestion" component={AddQuestion} />
           <Route exact path="/question" component={ViewQuestion} />
 
