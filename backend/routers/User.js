@@ -128,7 +128,8 @@ router.get("/userList", async (req, res) => {
     console.log("INSIDE USER GET AlL");
 
     const query = req.query.new;
-    const findUser = req.query.username;
+    const findUser = req.query.name;
+    console.log(findUser)
 
 
     try {
@@ -137,10 +138,10 @@ router.get("/userList", async (req, res) => {
         if (query) {
             users = await User.find().sort({createdAt: -1}).limit(10);
         }
-        else if (users) {
+        else if (findUser) {
             users = await User.find({
-                username: {
-                    $in: [findUser],
+                name: {
+                    $in: findUser,
                 },
             });
         }
@@ -148,6 +149,7 @@ router.get("/userList", async (req, res) => {
             users = await User.find();
         }
 
+        console.log(users)
         console.log("SUCCESS GET USERS REQ");
         res.status(200).json(users);
     } catch (err) {
