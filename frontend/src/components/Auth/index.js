@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import {useHistory} from "react-router-dom";
+import {useHistory, Redirect} from "react-router-dom";
 import "./index.css";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
+// import {Navigate} from 'react-router';
 
 function Index() {
     const history = useHistory();
@@ -12,6 +13,8 @@ function Index() {
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    // const [redirectVar, setRedirectVar] = useState(false);
+
 
     function validateEmail(email) {
         const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
@@ -19,11 +22,12 @@ function Index() {
             return false;
         } else return true;
     }
-    
+
     const handleSignIn = async (e) => {
         e.preventDefault();
         setError();
         setLoading(true);
+
 
         if (username === "" || password === "") {
             setError("Required field is missing");
@@ -35,8 +39,8 @@ function Index() {
 
         } else {
 
-     
-           
+
+
             const bodyJSON = {
                 username: username,
                 password: password
@@ -63,14 +67,17 @@ function Index() {
 
                     // console.log(decoded.username);
 
-                    alert("Successfully signed in");
-                    history.push("/");
+                    // alert("Successfully signed in");
+                    // history.push("/");
+                    // <Navigate to="/"/>
+                    // setRedirectVar(true);
+                    window.location.href ="/";
 
                     // header of proile , logout show hide login
                     setLoading(false);
 
 
-                   
+
                 })
                 .catch((err) => {
                     console.log(err);
@@ -84,7 +91,7 @@ function Index() {
 
     function addToMongo(){
         // alert(localStorage.getItem("username"));
-        
+
         const body = {
             username: username,
             password: password,
@@ -95,7 +102,7 @@ function Index() {
             console.log(username);
             console.log(res.data);
              // console.log(res.data);
-         
+
         //   history.push("/");
 
         })
@@ -133,7 +140,7 @@ function Index() {
                     history.push("/");
                     setLoading(false);
 
-                    
+
                 })
                 .catch((error) => {
                     console.log(error);
@@ -145,6 +152,7 @@ function Index() {
     };
 
     return (
+
         <div className="auth">
             <div className="auth-container">
                 <div className="auth-login">
