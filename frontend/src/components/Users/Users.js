@@ -25,7 +25,7 @@ function Users() {
             }
         };
         getUsers();
-    }, [filterUser]); //changes when click to another category or search
+    }, [filterUser]); //changes when click to another search
 
 
     return (
