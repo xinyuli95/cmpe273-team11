@@ -9,7 +9,6 @@ const usersSchema = new Schema({
         name: {type: String},
         img: {type: String},
         lastSeen: {type: Date},
-        location: {type: String},
         about: {type: String},
         badges: {type: Array},
         tags: {type: Array},

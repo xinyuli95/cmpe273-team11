@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
+const options = { user : "root", pass : "123456", auth : {authMechanism: 'MONGODB-CR'} }
+
+var conn ='mongodb://localhost:27017/Stackoverflow';
+
 const url =
-  "mongodb+srv://sckjaveed:Javeed123@stackcluster.6gbwi.mongodb.net/stackoverflowjaveed?retryWrites=true&w=majority";
+  "mongodb+srv://hangyuan:Xhy123456@cluster0.ybryy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 module.exports.connect = () => {
   mongoose
     .connect(url, {

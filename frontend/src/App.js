@@ -3,7 +3,9 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
+import 'antd/dist/antd.css';
 
 import Tags from "./components/Tags";
 import Users from "./components/Users";
@@ -13,8 +15,7 @@ import Header from "./components/Header";
 import AddQuestion from "./components/AddQuestion";
 import ViewQuestion from "./components/ViewQuestion";
 import Auth from "./components/Auth";
-import SignUp from "./components/Signup";
-
+import Search from "./components/Search";
 
 import ProfilePage from "./components/Profile";
 import Activities from "./components/Profile/Activities";
@@ -24,19 +25,55 @@ import ActivityBadges from "./components/Profile/Activities/ActivityBadges/Activ
 import Bookmarkstab from "./components/Profile/Activities/Bookmarkstab/Bookmarkstab";
 import Reputation from "./components/Profile/Activities/Reputation/Reputation";
 import UserDetails from "./components/Profile/UserDetails/UserDetails";
-
-import Search from "./components/Search";
+import EditUserDetails from "./components/Profile/EditUserDetails"
 
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./feature/userSlice";
 import { useEffect } from "react";
-
+import { auth } from "./firebase";
 
 function App() {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
-  
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        dispatch(
+          login({
+            uid: authUser.uid,
+            photo: authUser.photoURL,
+            displayName: authUser.displayName,
+            email: authUser.email,
+          })
+        );
+      } else {
+        dispatch(logout());
+      }
+      // console.log(authUser);
+    });
+  }, [dispatch]);
+
+  // const PrivateRoute = ({ component: Component, ...rest }) => (
+  //   <Route
+  //     {...rest}
+  //     render={(props) =>
+  //       user ? (
+  //         <Component {...props} />
+  //       ) : (
+  //         <Redirect
+  //           to={{
+  //             pathname: "/auth",
+  //             state: {
+  //               from: props.location,
+  //             },
+  //           }}
+  //         />
+  //       )
+  //     }
+  //   />
+  // );
+
   return (
     <div className="App">
       <Router>
@@ -47,13 +84,11 @@ function App() {
 
           <Route exact path="/tags" component={Tags} />
           <Route exact path="/users" component={Users} />
-          <Route exact path="/results" component={Search} />
 
           <Route exact path="/auth" component={Auth} />
-          <Route exact path="/signup" component={SignUp} />
-
           <Route exact path="/addquestion" component={AddQuestion} />
           <Route exact path="/question" component={ViewQuestion} />
+          <Route exact path="/results" component={Search} />
 
           <Route exact path="/userprofile" component={ProfilePage} />
           <Route exact path="/activities" component={Activities} />
@@ -76,13 +111,13 @@ function App() {
           <Route path="/reputation">
             <Reputation />
           </Route>
+          <Route path="/edit/user/details">
+            <EditUserDetails />
+          </Route>
 
-          {
-          /* <PrivateRoute exact path="/" component={StackOverflow} />
+          {/* <PrivateRoute exact path="/" component={StackOverflow} />
           <PrivateRoute exact path="/addquestion" component={AddQuestion} />
-          <PrivateRoute exact path="/question" component={ViewQuestion} /> */
-          }
-
+          <PrivateRoute exact path="/question" component={ViewQuestion} /> */}
         </Switch>
       </Router>
     </div>

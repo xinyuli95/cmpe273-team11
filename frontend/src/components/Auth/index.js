@@ -1,20 +1,17 @@
 import React, {useState} from "react";
-// import {useHistory, Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import "./index.css";
 import axios from "axios";
 import jwt_decode from 'jwt-decode';
-// import {Navigate} from 'react-router';
 
 function Index() {
-    // const history = useHistory();
+    const history = useHistory();
     const [register, setRegister] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    // const [redirectVar, setRedirectVar] = useState(false);
-
 
     function validateEmail(email) {
         const reg = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
@@ -28,7 +25,6 @@ function Index() {
         setError();
         setLoading(true);
 
-
         if (username === "" || password === "") {
             setError("Required field is missing");
             setLoading(false);
@@ -38,9 +34,6 @@ function Index() {
             //   setLoading(false);
 
         } else {
-
-
-
             const bodyJSON = {
                 username: username,
                 password: password
@@ -63,21 +56,9 @@ function Index() {
                     localStorage.setItem("user_id", decoded.id);
                     localStorage.setItem("username", decoded.username);
 
-                    console.log(localStorage.getItem("username"));
-
-                    // console.log(decoded.username);
-
                     // alert("Successfully signed in");
-                    // history.push("/");
-                    // <Navigate to="/"/>
-                    // setRedirectVar(true);
-                    window.location.href ="/";
-
-                    // header of proile , logout show hide login
+                    history.push("/");
                     setLoading(false);
-
-
-
                 })
                 .catch((err) => {
                     console.log(err);
@@ -86,32 +67,6 @@ function Index() {
                 });
         }
     };
-
-
-
-    function addToMongo(){
-        // alert(localStorage.getItem("username"));
-
-        const body = {
-            username: username,
-            password: password,
-        };
-        axios
-        .post("/api/userdetails", body)
-        .then((res) => {
-            console.log(username);
-            console.log(res.data);
-             // console.log(res.data);
-
-        //   history.push("/");
-
-        })
-        .catch((err) => {
-            console.log(err);
-            setError(error.message);
-            setLoading(false);
-        });
-    }
 
     const handleRegister = async (e) => {
         setError("");
@@ -131,16 +86,12 @@ function Index() {
                 password: password,
                 email: email
             };
-            addToMongo();
-
             await axios
                 .post("/api/user/signup", bodyJSON)
                 .then((res) => {
                     console.log(res);
-                    window.location.href ="/auth";
+                    history.push("/");
                     setLoading(false);
-
-
                 })
                 .catch((error) => {
                     console.log(error);
@@ -152,7 +103,6 @@ function Index() {
     };
 
     return (
-
         <div className="auth">
             <div className="auth-container">
                 <div className="auth-login">
@@ -197,7 +147,7 @@ function Index() {
                         ) : (
                             <>
                                 <div className="input-field">
-                                    <p>Username</p>
+                                    <p>Email</p>
                                     <input
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}

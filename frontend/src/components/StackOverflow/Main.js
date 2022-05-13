@@ -55,7 +55,13 @@ function Main({ questions }) {
         </div>
 
 
-      
+        <div className="filteredquestions">
+          {/* {questions?.map((_q) => (
+            <div className="question">
+              <AllQuestions data={_q} />
+            </div>
+          ))} */}
+        </div>
       </div>
     </div>
   );

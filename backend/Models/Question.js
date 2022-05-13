@@ -8,24 +8,11 @@ const questionSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
-  user: String,
+  user: Object,
   comment_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comments",
   },
-  answercomment_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "answercomments",
-  },
-  vote_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Votes",
-  },
-  // userdetails_id: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "Userdetails",
-  // }
-
 });
 
-module.exports = mongoose.model("Questions", questionSchema);
+module.exports = mongoose.model("questions", questionSchema);

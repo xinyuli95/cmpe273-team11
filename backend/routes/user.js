@@ -115,7 +115,11 @@ router.get("/find/:id", async (req, res) => {
     console.log("INSIDE USER GET");
 
     try {
-        const user = await User.findById(req.params.id);
+        // const user = await User.findById(req.params.id);
+        const sql = `SELECT * FROM users WHERE id = ?`
+
+        const res = await db.query(sql, [req.params.id]);
+
         res.status(200).json(user);
         console.log("SUCCESS USER GET")
 

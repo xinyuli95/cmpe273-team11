@@ -19,12 +19,12 @@ function Sidebar() {
                 <Link to="/">Questions</Link>
               </div>
               
-              <div className="link-tag">
+              {/* <div className="link-tag">
                 <Link to="/tags">Tags</Link>
               </div>
               <div className="link-tag">
                 <Link to="/users" >Users</Link>
-              </div>
+              </div> */}
 
             </div>
           </div>

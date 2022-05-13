@@ -11,12 +11,7 @@ import { useHistory } from "react-router-dom";
 // import ChipsArray from "./TagsInput";
 
 function Index() {
-  // const user = useSelector(selectUser);
-
-  const [user, setName] = useState('');
- 
-
-
+  const user = useSelector(selectUser);
   var toolbarOptions = [
     ["bold", "italic", "underline", "strike"], // toggled buttons
     ["blockquote", "code-block"],
@@ -81,14 +76,12 @@ function Index() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
- 
-
     if (title !== "" && body !== "") {
       const bodyJSON = {
         title: title,
         body: body,
         tag: JSON.stringify(tag),
-        user: localStorage.getItem("username"),
+        user: user,
       };
       //check auth
       axios.defaults.headers.common['authorization'] = localStorage.getItem('token');

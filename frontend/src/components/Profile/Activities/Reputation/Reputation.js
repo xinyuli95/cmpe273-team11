@@ -17,7 +17,7 @@ function Reputation() {
                 <li>
                   <a
                     class="s-navigation--item is-selected pr48 ps-relative"
-                    href="/users/2901002/jezrael?tab=answers"
+                    href="/Activities"
                     title="Answers this user provided"
                     data-shortcut="A"
                   >
@@ -27,7 +27,7 @@ function Reputation() {
                 <li>
                   <a
                     class="s-navigation--item pr48 ps-relative"
-                    href="/Questions/Questionstab"
+                    href="/questionstab"
                     title="Questions this user asked"
                     data-shortcut="Q"
                   >

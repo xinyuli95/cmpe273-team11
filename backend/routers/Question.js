@@ -5,345 +5,225 @@ const router = express.Router();
 const QuestionDB = require("../models/Question");
 const { checkAuth } = require("../utils/passport");
 
-router.post("/", async (req, res) => {
-  const questionData = new QuestionDB({
-    title: req.body.title,
-    body: req.body.body,
-    tags: req.body.tag,
-    user: req.body.user,
-  });
-
-  await questionData
-    .save()
-    .then((doc) => {
-      res.status(201).send(doc);
-    })
-    .catch((err) => {
-      res.status(400).send({
-        message: "Question not added successfully",
-      });
+router.post("/", checkAuth, async (req, res) => {
+    const questionData = new QuestionDB({
+        title: req.body.title,
+        body: req.body.body,
+        tags: req.body.tag,
+        user: req.body.user,
     });
+
+    await questionData
+        .save()
+        .then((doc) => {
+            res.status(201).send(doc);
+        })
+        .catch((err) => {
+            res.status(400).send({
+                message: "Question not added successfully",
+            });
+        });
 });
 
+// router.get("/", async (req, res) => {
+//   const questions = await QuestionDB.find({});
+
+//   try {
+//     if (questions) {
+//       res.status(200).send({ questions });
+//     } else {
+//       res.status(400).send({
+//         message: "question not found",
+//       });
+//     }
+//   } catch (e) {
+//     res.status(400).send({
+//       message: "Error in getting question",
+//     });
+//   }
+// });
+
 router.get("/:id", async (req, res) => {
-  try {
-    // const question = await QuestionDB.findOne({ _id: req.params.id });
-    // res.status(200).send(question);
-    QuestionDB.aggregate([
-      {
-        $match: { _id: mongoose.Types.ObjectId(req.params.id) },
-      },
-      {
-        $lookup: {
-          from: "answers",
-          let: { question_id: "$_id" },
-          pipeline: [
+    try {
+        // const question = await QuestionDB.findOne({ _id: req.params.id });
+        // res.status(200).send(question);
+        QuestionDB.aggregate([
             {
-              $match: {
-                $expr: {
-                  $eq: ["$question_id", "$$question_id"],
+                $match: { _id: mongoose.Types.ObjectId(req.params.id) },
+            },
+            {
+                $lookup: {
+                    from: "answers",
+                    let: { question_id: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$question_id", "$$question_id"],
+                                },
+                            },
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                user: 1,
+                                answer: 1,
+                                // created_at: 1,
+                                question_id: 1,
+                                created_at: 1,
+                            },
+                        },
+                    ],
+                    as: "answerDetails",
                 },
-              },
             },
             {
-              $project: {
-                _id: 1,
-                user: 1,
-                answer: 1,
-                // created_at: 1,
-                question_id: 1,
-                created_at: 1,
-              },
-            },
-          ],
-          as: "answerDetails",
-        },
-      },
-      {
-        $lookup: {
-          from: "comments",
-          let: { question_id: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$question_id", "$$question_id"],
+                $lookup: {
+                    from: "comments",
+                    let: { question_id: "$_id" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ["$question_id", "$$question_id"],
+                                },
+                            },
+                        },
+                        {
+                            $project: {
+                                _id: 1,
+                                question_id: 1,
+                                user: 1,
+                                comment: 1,
+                                // created_at: 1,
+                                // question_id: 1,
+                                created_at: 1,
+                            },
+                        },
+                    ],
+                    as: "comments",
                 },
-              },
             },
+            // {
+            //   $unwind: {
+            //     path: "$answerDetails",
+            //     preserveNullAndEmptyArrays: true,
+            //   },
+            // },
             {
-              $project: {
-                _id: 1,
-                question_id: 1,
-                user: 1,
-                comment: 1,
-                // created_at: 1,
-                // question_id: 1,
-                created_at: 1,
-              },
-            },
-          ],
-          as: "comments",
-        },
-      },
-      {
-        $lookup: {
-          from: "answercomments",
-          let: { question_id: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$question_id", "$$question_id"],
+                $project: {
+                    __v: 0,
+                    // _id: "$_id",
+                    // answerDetails: { $first: "$answerDetails" },
                 },
-              },
             },
-            {
-              $project: {
-                _id: 1,
-                question_id: 1,
-                user: 1,
-                answercomment: 1,
-                // created_at: 1,
-                // question_id: 1,
-                created_at: 1,
-              },
-            },
-          ],
-          as: "answercomments",
-        },
-      },
-
-      {
-        $lookup: {
-          from: "votes",
-          let: { question_id: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$question_id", "$$question_id"],
-                },
-              },
-            },
-            {
-              $project: {
-                _id: 1,
-                question_id: 1,
-                // user: 1,
-                vote: 1,
-                // created_at: 1,
-                // question_id: 1,
-                // created_at: 1,
-              },
-            },
-          ],
-          as: "votes",
-        },
-      },
-
-      {
-        $lookup: {
-          from: "userdetails",
-          let: { question_id: "$_id" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ["$question_id", "$$question_id"],
-                },
-              },
-            },
-            {
-              $project: {
-                _id: 1,
-                question_id: 1,
-                username: 1,
-                password: 1,
-                email:1,
-                name:1,
-                img: 1,
-                lastSeen:1,
-                about: 1,
-                badges: 1,
-                tags: 1,
-                bookmarks: 1,
-                reputation: 1,
-                created_at: 1,
-                user: 1,
-              },
-            },
-          ],
-          as: "userdetails",
-        },
-      },
-
-      // {
-      //   $unwind: {
-      //     path: "$answerDetails",
-      //     preserveNullAndEmptyArrays: true,
-      //   },
-      // },
-      {
-        $project: {
-          __v: 0,
-          // _id: "$_id",
-          // answerDetails: { $first: "$answerDetails" },
-        },
-      },
-    ])
-      .exec()
-      .then((questionDetails) => {
-        res.status(200).send(questionDetails);
-      })
-      .catch((e) => {
-        console.log("Error: ", e);
-        res.status(400).send(error);
-      });
-  } catch (err) {
-    res.status(400).send({
-      message: "Question not found",
-    });
-  }
+        ])
+            .exec()
+            .then((questionDetails) => {
+                res.status(200).send(questionDetails);
+            })
+            .catch((e) => {
+                console.log("Error: ", e);
+                res.status(400).send(error);
+            });
+    } catch (err) {
+        res.status(400).send({
+            message: "Question not found",
+        });
+    }
 });
 
 router.get("/", async (req, res) => {
-  const error = {
-    message: "Error in retrieving questions",
-    error: "Bad request",
-  };
+    //   const error = {
+    //     message: "Error in retrieving questions",
+    //     error: "Bad request",
+    //   };
 
-  QuestionDB.aggregate([
-    {
-      $lookup: {
-        from: "comments",
-        let: { question_id: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$question_id", "$$question_id"],
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 1,
-              // user_id: 1,
-              comment: 1,
-              created_at: 1,
-              // question_id: 1,
-            },
-          },
-        ],
-        as: "comments",
-      },
-    },
-    {
-      $lookup: {
-        from: "answers",
-        let: { question_id: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$question_id", "$$question_id"],
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 1,
-              // user_id: 1,
-              // answer: 1,
-              // created_at: 1,
-              // question_id: 1,
-              // created_at: 1,
-            },
-          },
-        ],
-        as: "answerDetails",
-      },
-    },
-    {
-      $lookup: {
-        from: "votes",
-        let: { question_id: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$question_id", "$$question_id"],
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 1,
-              question_id: 1,
-              // user: 1,
-              vote: 1,
-              // created_at: 1,
-              // question_id: 1,
-              // created_at: 1,
-            },
-          },
-        ],
-        as: "votes",
-      },
-    },
+    QuestionDB.find((err, data) => {
 
-    {
-      $lookup: {
-        from: "userdetails",
-        let: { question_id: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ["$question_id", "$$question_id"],
-              },
-            },
-          },
-          {
-            $project: {
-              _id: 1,
-              question_id: 1,
-              username: 1,
-              password: 1,
-              email:1,
-              name:1,
-              img: 1,
-              lastSeen:1,
-              about: 1,
-              badges: 1,
-              tags: 1,
-              bookmarks: 1,
-              reputation: 1,
-              created_at: 1,
-              user: 1,
-            },
-          },
-        ],
-        as: "userdetails",
-      },
-    },
-    {
-      $project: {
-        __v: 0,
-        // _id: "$_id",
-        // answerDetails: { $first: "$answerDetails" },
-      },
-    },
-  ])
-    .exec()
-    .then((questionDetails) => {
-      res.status(200).send(questionDetails);
-    })
-    .catch((e) => {
-      console.log("Error: ", e);
-      res.status(400).send(error);
-    });
+        if (err) {
+            res.status(400).send({
+                message: err,
+            });
+        }
+
+        res.status(200).send(data);
+    })    
+
+    //   QuestionDB.aggregate([
+    //     {
+    //       $lookup: {
+    //         from: "comments",
+    //         let: { question_id: "$_id" },
+    //         pipeline: [
+    //           {
+    //             $match: {
+    //               $expr: {
+    //                 $eq: ["$question_id", "$$question_id"],
+    //               },
+    //             },
+    //           },
+    //           {
+    //             $project: {
+    //               _id: 1,
+    //               // user_id: 1,
+    //               comment: 1,
+    //               created_at: 1,
+    //               // question_id: 1,
+    //             },
+    //           },
+    //         ],
+    //         as: "comments",
+    //       },
+    //     },
+    //     {
+    //       $lookup: {
+    //         from: "answers",
+    //         let: { question_id: "$_id" },
+    //         pipeline: [
+    //           {
+    //             $match: {
+    //               $expr: {
+    //                 $eq: ["$question_id", "$$question_id"],
+    //               },
+    //             },
+    //           },
+    //           {
+    //             $project: {
+    //               _id: 1,
+    //               // user_id: 1,
+    //               // answer: 1,
+    //               // created_at: 1,
+    //               // question_id: 1,
+    //               // created_at: 1,
+    //             },
+    //           },
+    //         ],
+    //         as: "answerDetails",
+    //       },
+    //     },
+    //     // {
+    //     //   $unwind: {
+    //     //     path: "$answerDetails",
+    //     //     preserveNullAndEmptyArrays: true,
+    //     //   },
+    //     // },
+    //     {
+    //       $project: {
+    //         __v: 0,
+    //         // _id: "$_id",
+    //         // answerDetails: { $first: "$answerDetails" },
+    //       },
+    //     },
+    //   ])
+    //     .exec()
+    //     .then((questionDetails) => {
+    //       res.status(200).send(questionDetails);
+    //     })
+    //     .catch((e) => {
+    //       console.log("Error: ", e);
+    //       res.status(400).send(error);
+    //     });
 });
 
 module.exports = router;
