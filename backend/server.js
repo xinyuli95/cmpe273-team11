@@ -31,7 +31,7 @@ app.get("*", (req, res) => {
   try {
     res.sendFile(path.join(`${__dirname}/../frontend/build/index.html`));
   } catch (e) {
-    res.send("Welcome to stackoverflow clone");
+    res.send("Welcome to stackoverflow");
   }
 });
 

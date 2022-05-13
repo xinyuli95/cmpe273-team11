@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./css/index.css";
-import {useHistory} from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import { Avatar } from "@material-ui/core";
@@ -8,7 +7,7 @@ import { Avatar } from "@material-ui/core";
 import InboxIcon from "@material-ui/icons/Inbox";
 import HelpIcon from "@material-ui/icons/Help";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase";
+
 import { useSelector } from "react-redux";
 import { selectUser } from "../../feature/userSlice";
 
@@ -16,17 +15,31 @@ import axios from "axios";
 
 
 function Header() {
-  const history = useHistory();
-  const [search, setSearch] = useState("");
+ 
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    
-    if (search !== "") {
-      history.push(`/results?s=${search}`);
-    };
-  };
+  const [showProfileIcon, setShowProfileIcon] = useState(false);
 
+
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("username");
+    console.log(loggedInUser);
+    if (loggedInUser) {
+      // const foundUser = JSON.parse(loggedInUser);
+      setShowProfileIcon(true);
+    }
+  }, [showProfileIcon]);
+
+  // useEffect(() => {
+  //   // Update the document title using the browser API
+  //   if(localStorage.getItem("username") === null || localStorage.getItem("username") ===""  || localStorage.getItem("password") === undefined){
+  //     setShowProfileIcon(false);
+  //   }
+  //   else{
+  //     setShowProfileIcon(true);
+  //   }
+  // });
+ 
   const user = useSelector(selectUser);
   // console.log(user);
   function stringToColor(string) {
@@ -57,6 +70,16 @@ function Header() {
       children: name && `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
     };
   }
+
+
+  
+
+
+  function handleLogout(){
+    localStorage.clear();
+    setShowProfileIcon(false);
+    
+  }
   return (
     <header>
       <div className="header-container">
@@ -76,67 +99,64 @@ function Header() {
         <div className="header-middle">
           <div className="header-search-container">
             <SearchIcon />
-            <input
-              type="text" 
-              placeholder="Search" 
-              value = {search} 
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <button
-              onClick={handleSearch}
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              Search
-            </button>
 
+           
+
+            <input
+              type="text"
+              placeholder="Search..."
+ 
+            />
           </div>
         </div>
 
     
 
 
-        {/* After login */}
+        
 
-        {/* <div className="header-right">
-          <div className="header-right-container">
-            {window.innerWidth < 768 && <SearchIcon />}
-            <Link to="/userprofile">
-              <Avatar
-                style={{
-                  cursor: "pointer",
-                }}
-                {...stringAvatar(user && user.displayName)}
-                onClick={() => auth.signOut()}
-              />
-            </Link>
+        {/* Ternaty cond if user loggined : lohout profile .. : login  */}
 
-            <InboxIcon />
-            <HelpIcon />
-            <svg
-              aria-hidden="true"
-              class="svg-icon iconStackExchange"
-              width="24"
-              height="24"
-              viewBox="0 0 18 18"
-              fill="rgba(0,0,0,0.5)"
-              style={{
-                cursor: "pointer",
-              }}
-            >
-              <path d="M15 1H3a2 2 0 00-2 2v2h16V3a2 2 0 00-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 002-2v-2H1v2Zm16-7H1v4h16V6Z"></path>
-            </svg>
+         {/* After login */}
 
-
-            <Link to="/">
-              <button>Logout</button>
-            </Link>
-          </div>
-        </div> */}
-
-        {/* Before Login */}
-        <div className="header-right">
+         { showProfileIcon === true ?
+               <div className="header-right">
+               <div className="header-right-container">
+                 {window.innerWidth < 768 && <SearchIcon />}
+     
+     
+                 <Link to="/userprofile">
+                   <Avatar
+                     style={{
+                       cursor: "pointer",
+                     }}
+                     // {...stringAvatar(user && user.displayName)}
+                     // onClick={() => auth.signOut()}
+                   />
+                 </Link>
+     
+                 <InboxIcon />
+                 <HelpIcon />
+                 <svg
+                   aria-hidden="true"
+                   class="svg-icon iconStackExchange"
+                   width="24"
+                   height="24"
+                   viewBox="0 0 18 18"
+                   fill="rgba(0,0,0,0.5)"
+                   style={{
+                     cursor: "pointer",
+                   }}
+                 >
+                   <path d="M15 1H3a2 2 0 00-2 2v2h16V3a2 2 0 00-2-2ZM1 13c0 1.1.9 2 2 2h8v3l3-3h1a2 2 0 002-2v-2H1v2Zm16-7H1v4h16V6Z"></path>
+                 </svg>
+                 <Link to="/">
+                   <button onClick={handleLogout}>Logout</button>
+                 </Link>
+               </div>
+             </div>
+          :
+          <div className="header-right">
           <div className="header-right-container">
             {window.innerWidth < 768 && <SearchIcon />}
 
@@ -145,6 +165,19 @@ function Header() {
             </Link>
           </div>
         </div>
+         }
+
+       
+
+
+
+
+        {/* Before Login */}
+        
+
+        
+
+
       </div>
     </header>
   );

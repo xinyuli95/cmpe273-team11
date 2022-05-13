@@ -16,24 +16,34 @@ function Question() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [tag, setTag] = useState([]);
+  // const [user, setUSer] = useState("");
   const history = useHistory();
   const handleQuill = (value) => {
     setBody(value);
   };
 
+  // setUsername("Javeed Sanganakal");
+
+  alert(localStorage.getItem("username"));
+  
+
   // const [question, setQuestion] = useState();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    alert();
+
     if (title !== "" && body !== "") {
-      const bodyJSON = {
+      const body = {
         title: title,
         body: body,
         tag: JSON.stringify(tag),
-        // user: user,
+        user: localStorage.getItem("username"),
+
       };
       await axios
-          .post("http://localhost:3001/question/create", bodyJSON)
+          // .post("http://localhost:3001/question/create", bodyJSON)
+          .post("/api/question", body)
           .then((res) => {
             // console.log(res.data);
             alert("Question added successfully");

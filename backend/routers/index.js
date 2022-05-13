@@ -4,8 +4,10 @@ const router = express.Router();
 const questionRouter = require("./Question");
 const answerRouter = require("./Asnwer");
 const commentRouter = require('./Comments');
+const answercommentRouter = require('./answercomments');
 const userRouter = require('./User');
-const searchRouter = require('./Search')
+const voteRouter = require('./Votes');
+const UserdetailsRouter = require('./Userdetails');
 
 router.get("/", (req, res) => {
   res.send("Welcome to stack overflow clone");
@@ -14,7 +16,9 @@ router.get("/", (req, res) => {
 router.use("/question", questionRouter);
 router.use("/answer", answerRouter);
 router.use('/comment', commentRouter);
+router.use('/answercomment', answercommentRouter);
 router.use('/user', userRouter);
-router.use('/search', searchRouter);
+router.use('/vote', voteRouter);
+router.use('/userdetails', UserdetailsRouter);
 
 module.exports = router;
