@@ -8,7 +8,7 @@ const path = require("path");
 const app = express();
 const router = require("./routers");
 const bodyParser = require("body-parser");
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3001;
 
 const db = require("./db");
 db.connect();
@@ -31,7 +31,7 @@ app.get("*", (req, res) => {
   try {
     res.sendFile(path.join(`${__dirname}/../frontend/build/index.html`));
   } catch (e) {
-    res.send("Welcome to stackoverflow clone");
+    res.send("Welcome to stackoverflow");
   }
 });
 

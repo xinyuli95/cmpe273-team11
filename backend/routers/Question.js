@@ -5,7 +5,7 @@ const router = express.Router();
 const QuestionDB = require("../models/Question");
 const { checkAuth } = require("../utils/passport");
 
-router.post("/", checkAuth,async (req, res) => {
+router.post("/", async (req, res) => {
   const questionData = new QuestionDB({
     title: req.body.title,
     body: req.body.body,
@@ -24,24 +24,6 @@ router.post("/", checkAuth,async (req, res) => {
       });
     });
 });
-
-// router.get("/", async (req, res) => {
-//   const questions = await QuestionDB.find({});
-
-//   try {
-//     if (questions) {
-//       res.status(200).send({ questions });
-//     } else {
-//       res.status(400).send({
-//         message: "question not found",
-//       });
-//     }
-//   } catch (e) {
-//     res.status(400).send({
-//       message: "Error in getting question",
-//     });
-//   }
-// });
 
 router.get("/:id", async (req, res) => {
   try {
@@ -104,6 +86,98 @@ router.get("/:id", async (req, res) => {
           as: "comments",
         },
       },
+      {
+        $lookup: {
+          from: "answercomments",
+          let: { question_id: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$question_id", "$$question_id"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                question_id: 1,
+                user: 1,
+                answercomment: 1,
+                // created_at: 1,
+                // question_id: 1,
+                created_at: 1,
+              },
+            },
+          ],
+          as: "answercomments",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "votes",
+          let: { question_id: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$question_id", "$$question_id"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                question_id: 1,
+                // user: 1,
+                vote: 1,
+                // created_at: 1,
+                // question_id: 1,
+                // created_at: 1,
+              },
+            },
+          ],
+          as: "votes",
+        },
+      },
+
+      {
+        $lookup: {
+          from: "userdetails",
+          let: { question_id: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$question_id", "$$question_id"],
+                },
+              },
+            },
+            {
+              $project: {
+                _id: 1,
+                question_id: 1,
+                username: 1,
+                password: 1,
+                email:1,
+                name:1,
+                img: 1,
+                lastSeen:1,
+                about: 1,
+                badges: 1,
+                tags: 1,
+                bookmarks: 1,
+                reputation: 1,
+                created_at: 1,
+                user: 1,
+              },
+            },
+          ],
+          as: "userdetails",
+        },
+      },
+
       // {
       //   $unwind: {
       //     path: "$answerDetails",
@@ -191,12 +265,69 @@ router.get("/", async (req, res) => {
         as: "answerDetails",
       },
     },
-    // {
-    //   $unwind: {
-    //     path: "$answerDetails",
-    //     preserveNullAndEmptyArrays: true,
-    //   },
-    // },
+    {
+      $lookup: {
+        from: "votes",
+        let: { question_id: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$question_id", "$$question_id"],
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              question_id: 1,
+              // user: 1,
+              vote: 1,
+              // created_at: 1,
+              // question_id: 1,
+              // created_at: 1,
+            },
+          },
+        ],
+        as: "votes",
+      },
+    },
+
+    {
+      $lookup: {
+        from: "userdetails",
+        let: { question_id: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $eq: ["$question_id", "$$question_id"],
+              },
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              question_id: 1,
+              username: 1,
+              password: 1,
+              email:1,
+              name:1,
+              img: 1,
+              lastSeen:1,
+              about: 1,
+              badges: 1,
+              tags: 1,
+              bookmarks: 1,
+              reputation: 1,
+              created_at: 1,
+              user: 1,
+            },
+          },
+        ],
+        as: "userdetails",
+      },
+    },
     {
       $project: {
         __v: 0,

@@ -19,7 +19,7 @@ function Index() {
             return false;
         } else return true;
     }
-
+    
     const handleSignIn = async (e) => {
         e.preventDefault();
         setError();
@@ -34,6 +34,9 @@ function Index() {
             //   setLoading(false);
 
         } else {
+
+     
+           
             const bodyJSON = {
                 username: username,
                 password: password
@@ -56,9 +59,18 @@ function Index() {
                     localStorage.setItem("user_id", decoded.id);
                     localStorage.setItem("username", decoded.username);
 
-                    // alert("Successfully signed in");
+                    console.log(localStorage.getItem("username"));
+
+                    // console.log(decoded.username);
+
+                    alert("Successfully signed in");
                     history.push("/");
+
+                    // header of proile , logout show hide login
                     setLoading(false);
+
+
+                   
                 })
                 .catch((err) => {
                     console.log(err);
@@ -67,6 +79,32 @@ function Index() {
                 });
         }
     };
+
+
+
+    function addToMongo(){
+        // alert(localStorage.getItem("username"));
+        
+        const body = {
+            username: username,
+            password: password,
+        };
+        axios
+        .post("/api/userdetails", body)
+        .then((res) => {
+            console.log(username);
+            console.log(res.data);
+             // console.log(res.data);
+         
+        //   history.push("/");
+
+        })
+        .catch((err) => {
+            console.log(err);
+            setError(error.message);
+            setLoading(false);
+        });
+    }
 
     const handleRegister = async (e) => {
         setError("");
@@ -86,12 +124,16 @@ function Index() {
                 password: password,
                 email: email
             };
+            addToMongo();
+
             await axios
                 .post("/api/user/signup", bodyJSON)
                 .then((res) => {
                     console.log(res);
                     history.push("/");
                     setLoading(false);
+
+                    
                 })
                 .catch((error) => {
                     console.log(error);
@@ -147,7 +189,7 @@ function Index() {
                         ) : (
                             <>
                                 <div className="input-field">
-                                    <p>Email</p>
+                                    <p>Username</p>
                                     <input
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
