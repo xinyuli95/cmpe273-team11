@@ -16,7 +16,7 @@ const ssl = true
 const sasl = { username, password, mechanism: 'plain' }
 
 // we can define the list of brokers in the cluster
-const brokers = ["pkc-lzvrd.us-west4.gcp.confluent.cloud:9092"]
+const brokers = ["<url>:9092"]
 // this is the topic to which we want to write messages
 const topic = "poc_topic"
 
